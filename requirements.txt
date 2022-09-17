@@ -1,3 +1,7 @@
 Django==4.1
 psycopg2
 python-dotenv
+django-money
+djangorestframework
+markdown
+django-filter

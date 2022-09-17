@@ -1,2 +1,8 @@
 .env
 data/
+.idea
+.venv/
+venv/
+__pycache__/
+*.log
+*.pot
