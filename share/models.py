@@ -13,3 +13,5 @@ class Share(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='shared_to')
     shared_budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='sharing')
     # privilege = models.CharField(max_length=80, choices=PrivilegeChoices.choices, default=PrivilegeChoices.VIEW)
+
+    objects = models.Manager()

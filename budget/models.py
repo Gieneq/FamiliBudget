@@ -7,6 +7,8 @@ class Budget(models.Model):
     owners_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='budgets_created')
     date_year_month = models.DateField(auto_now_add=True)
 
+    objects = models.Manager()
+
 
 class ExpenseType(models.Model):
 
@@ -27,6 +29,8 @@ class ExpenseType(models.Model):
 
     name = models.CharField(max_length=80, choices=ExpenseChoices.choices, default=ExpenseChoices.FOOD, unique=True)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f"ExpenseType: {self.name}"
 
@@ -37,6 +41,8 @@ class Expense(models.Model):
     type = models.ForeignKey(ExpenseType, on_delete=models.SET_NULL, null=True, related_name='examples')
     value = MoneyField(max_digits=14, decimal_places=2, default_currency='PLN')
 
+    objects = models.Manager()
+
     def __str__(self):
         return f"Expense of: {self.value}"
 
@@ -44,6 +50,8 @@ class Income(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='incomes_made')
     budget_common = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='incomes_contributed')
     value = MoneyField(max_digits=14, decimal_places=2, default_currency='PLN')
+
+    objects = models.Manager()
 
     def __str__(self):
         return f"Income of: {self.value}"

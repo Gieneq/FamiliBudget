@@ -90,6 +90,56 @@
       "name": "Health"
     }
   },
+
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "slug": "pyrograf"
+    }
+  },
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "slug": "staff"
+    }
+  },
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "slug": "piotr"
+    }
+  },
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "slug": "igor"
+    }
+  },
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 5,
+    "fields": {
+      "user": 5,
+      "slug": "ania"
+    }
+  },
+  {
+    "model": "userprofile.UserProfile",
+    "pk": 6,
+    "fields": {
+      "user": 6,
+      "slug": "ola"
+    }
+  },
+
   {
     "model": "auth.User",
     "pk": 2,
@@ -119,7 +169,7 @@
     "model": "auth.User",
     "pk": 5,
     "fields": {
-      "username": "Anżelika",
+      "username": "Ania",
       "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc="
     }
   },
