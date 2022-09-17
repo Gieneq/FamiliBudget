@@ -20,21 +20,30 @@ class ExpenseType(models.Model):
         WATER_BILL = 'Water Bill'
         ELECTRIC_BILL = 'Electric Bill'
         INTERNET_BILL = 'Internet Bill'
-        LOANS = 'Loans'
         PHONE_BILL = 'Phone Bill'
+        LOANS = 'Loans'
         COSMETICS = 'Cosmetics'
         HEALTH = 'Health'
 
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, choices=ExpenseChoices.choices, default=ExpenseChoices.FOOD, unique=True)
+
+    def __str__(self):
+        return f"ExpenseType: {self.name}"
 
 class Expense(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='expenses_made')
     budget_common = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='expenses_contributed')
     date = models.DateField(auto_now_add=True)
+    type = models.ForeignKey(ExpenseType, on_delete=models.SET_NULL, null=True, related_name='examples')
     value = MoneyField(max_digits=14, decimal_places=2, default_currency='PLN')
 
+    def __str__(self):
+        return f"Expense of: {self.value}"
 
 class Income(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='incomes_made')
     budget_common = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='incomes_contributed')
     value = MoneyField(max_digits=14, decimal_places=2, default_currency='PLN')
+
+    def __str__(self):
+        return f"Income of: {self.value}"

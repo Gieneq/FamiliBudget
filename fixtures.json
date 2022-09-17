@@ -1,0 +1,134 @@
+[
+  {
+    "model": "budget.ExpenseType",
+    "pk": 1,
+    "fields": {
+      "name": "Food"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 2,
+    "fields": {
+      "name": "Fun"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 3,
+    "fields": {
+      "name": "Clothes"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 4,
+    "fields": {
+      "name": "Eating out"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 5,
+    "fields": {
+      "name": "Car/Communication"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 6,
+    "fields": {
+      "name": "Rent/Mortgage"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 7,
+    "fields": {
+      "name": "Water Bill"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 8,
+    "fields": {
+      "name": "Electric Bill"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 9,
+    "fields": {
+      "name": "Internet Bill"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 10,
+    "fields": {
+      "name": "Phone Bill"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 11,
+    "fields": {
+      "name": "Loans"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 12,
+    "fields": {
+      "name": "Cosmetics"
+    }
+  },
+  {
+    "model": "budget.ExpenseType",
+    "pk": 13,
+    "fields": {
+      "name": "Health"
+    }
+  },
+  {
+    "model": "auth.User",
+    "pk": 2,
+    "fields": {
+      "username": "Staff",
+      "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc=",
+      "is_staff": true
+    }
+  },
+  {
+    "model": "auth.User",
+    "pk": 3,
+    "fields": {
+      "username": "Piotr",
+      "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc="
+    }
+  },
+  {
+    "model": "auth.User",
+    "pk": 4,
+    "fields": {
+      "username": "Igor",
+      "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc="
+    }
+  },
+  {
+    "model": "auth.User",
+    "pk": 5,
+    "fields": {
+      "username": "Anżelika",
+      "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc="
+    }
+  },
+  {
+    "model": "auth.User",
+    "pk": 6,
+    "fields": {
+      "username": "Ola",
+      "password": "pbkdf2_sha256$390000$yupt1rvlvYmbhGnHX2dlhd$XMe2K/XtZnDxNmTVgzNZ6xBBcH2kSlZlvEGvZHl5Lwc="
+    }
+  }
+]
