@@ -57,28 +57,18 @@ sudo docker exec -it 12 ls -lah
 ```
 
 ```text
-drwxrwxr-x 10 1000 1000 4.0K Sep 17 12:22 .
-drwxr-xr-x  1 root root 4.0K Sep 17 12:00 ..
--rw-rw-r--  1 1000 1000  181 Sep 16 23:36 .dockerignore
--rw-rw-r--  1 1000 1000   82 Sep 16 23:03 .env
-drwxrwxr-x  8 1000 1000 4.0K Sep 17 11:17 .git
--rw-rw-r--  1 1000 1000   54 Sep 17 11:10 .gitignore
-drwxrwxr-x  3 1000 1000 4.0K Sep 17 12:09 .idea
--rw-rw-r--  1 1000 1000  408 Sep 17 10:41 Dockerfile
--rw-rw-r--  1 1000 1000 1.8K Sep 17 12:22 README.md
-drwxrwxr-x  4 1000 1000 4.0K Sep 17 12:07 budget
-drwxr-xr-x  3 root root 4.0K Sep 16 22:47 data
--rw-rw-r--  1 1000 1000  508 Sep 17 11:49 docker-compose.yml
-drwxr-xr-x  4 1000 1000 4.0K Sep 17 10:31 familybudget
--rw-rw-r--  1 1000 1000 1.4K Sep 17 12:00 fixtures.json
--rwxr-xr-x  1 1000 1000  668 Sep 16 22:47 manage.py
--rw-rw-r--  1 1000 1000   90 Sep 17 10:15 requirements.txt
-drwxrwxr-x  4 1000 1000 4.0K Sep 17 10:26 share
-drwxrwxr-x  4 1000 1000 4.0K Sep 17 10:24 userprofile
-drwxrwxr-x  4 1000 1000 4.0K Sep 17 09:27 venv
+Todo
 
 ```
 
 ```commandline
 sudo docker exec -it 12 python manage.py loaddata fixtures.json
 ```
+
+## Tests
+Tests are done using django TestCase frameworkg done using Pythons unittest. To execute unit tests type:
+
+```commandline
+sudo docker exec -it 12 python manage.py test
+```
+It will look for all test.py files in <appname> folders
