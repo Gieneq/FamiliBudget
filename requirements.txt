@@ -5,3 +5,4 @@ django-money
 djangorestframework
 markdown
 django-filter
+python-dateutil
