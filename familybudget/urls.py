@@ -15,9 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(('GET',))
+def api_info_view(request):
+    content = {
+        # 'help': reverse('apihelp', request=request),
+        'user': str(reverse('userprofile:user_list', request=request)),
+        'profile': str(reverse('userprofile:userprofile_list', request=request)),
+        'share': str(reverse('share:share-list', request=request)),
+        #todo budgets
+    }
+    return Response(content)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('api/v1/', api_info_view, name='apihelp'),
     path('api/v1/user/', include('userprofile.urls', namespace='userprofile')),
+    path('api/v1/share/', include('share.urls', namespace='share')),
+    # path('api/v1/shared_to/', include('share.urls', namespace='share')),
 ]

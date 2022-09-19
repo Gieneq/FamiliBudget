@@ -11,14 +11,12 @@ from .serializers import UserProfileSerializer
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.reverse import reverse
+from familybudget.pagination import StandardPagination
 
 
 # todo add First/Last name validation capital letter
 
-class StandardPagination(PageNumberPagination):
-    page_size = 3
-    page_query_param = 'page'
-    max_page_size = 10
+
 
 
 class UserListView(generics.ListAPIView):

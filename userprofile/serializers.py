@@ -128,7 +128,6 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 class UserDestroySerializer():
     password2 = serializers.CharField(style={'input_type': 'password'})
 
@@ -146,12 +145,22 @@ class UserDestroySerializer():
 class UserProfileSerializer(serializers.ModelSerializer):
     # url = serializers.URLField(source='absolute_url', read_only=True)
     url = serializers.SerializerMethodField(read_only=True)
+    url_shared_to = serializers.SerializerMethodField(read_only=True)
+    # url_budgets = serializers.SerializerMethodField(read_only=True)
     user = SimpleUserSerializer(many=False, read_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ['slug', 'url', 'user']
+        fields = ['slug', 'url', 'url_shared_to'] + ['user']# + ['url_budgets']
 
     def get_url(self, instance):
         request = self.context.get('request')
         return reverse('userprofile:userprofile_detail', args=[instance.slug], request=request)
+
+    def get_url_shared_to(self, instance):
+        request = self.context.get('request')
+        return reverse('share:share_query', request=request) + f'?slug={instance.slug}'
+
+    # def get_url_budgets(self, instance):
+    #     request = self.context.get('request')
+    #     return reverse('userprofile:userprofile_detail', args=[instance.slug], request=None)
