@@ -6,6 +6,8 @@ from dateutil import relativedelta
 from djmoney.models.fields import MoneyField
 from django.db.models import Sum, Count, F
 from djmoney.money import Money
+from share.models import Share
+
 
 class Budget(models.Model):
     owners_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='budgets_created')
@@ -31,17 +33,18 @@ class Budget(models.Model):
 
     @property
     def sort_by_expenses_type(self):
-        return self.expenses_contributed.values('type').order_by('type').annotate(type_count=Count('type')).annotate(value_sum=Sum('value'))
+        return self.expenses_contributed.values('type').order_by('type').annotate(type_count=Count('type')).annotate(
+            value_sum=Sum('value'))
 
     def save(self, *args, **kwargs):
-        if(self.date_year_month.day != 1):
+        if (self.date_year_month.day != 1):
             self.date_year_month = date(self.date_year_month.year, self.date_year_month.month, 1)
         return super().save(*args, **kwargs)
 
     # todo zrob jakos wykaz wydatow per kategoria
 
-class ExpenseType(models.Model):
 
+class ExpenseType(models.Model):
     class ExpenseChoices(models.TextChoices):
         FOOD = 'Food'
         FUN = 'Fun'
@@ -64,6 +67,7 @@ class ExpenseType(models.Model):
     def __str__(self):
         return f"ExpenseType: {self.name}"
 
+
 class Expense(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='expenses_made')
     budget_common = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='expenses_contributed')
@@ -74,18 +78,26 @@ class Expense(models.Model):
     objects = models.Manager()
 
     def save(self, *args, **kwargs):
-        # print(args, kwargs, self)
         def in_month_range(date_of, date_starting):
             date_ending = date_starting + relativedelta.relativedelta(months=1)
             return date_starting <= date_of < date_ending
 
         if in_month_range(self.date, self.budget_common.date_year_month):
-            return super().save(*args, **kwargs)
-        raise ValidationError(f"Expenses for month {self.date.month} cannot be applied to budget of month {self.budget_common.date_year_month.month}")
+            # check if has privilege
+            if self.budget_common.owners_profile == self.profile:
+                return super().save(*args, **kwargs)
+            share = Share.objects.filter(profile=self.profile).filter(shared_budget=self.budget_common)
+            if share.exists() and share.first().privilege == Share.PrivilegeChoices.EDIT:
+                return super().save(*args, **kwargs)
+            raise ValidationError(
+                f"{self.budget_common} not shared to {self.profile}. Ask {self.budget_common.owners_profile} for edit privilege.")
 
+        raise ValidationError(
+            f"Expenses for month {self.date.month} cannot be applied to budget of month {self.budget_common.date_year_month.month}")
 
     def __str__(self):
         return f"Expense of: {self.value} at {self.date} type: {self.type}"
+
 
 class Income(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='incomes_made')
@@ -93,6 +105,15 @@ class Income(models.Model):
     value = MoneyField(max_digits=14, decimal_places=2, default_currency='PLN', default=0)
 
     objects = models.Manager()
+
+    def save(self, *args, **kwargs):
+        if self.budget_common.owners_profile == self.profile:
+            return super().save(*args, **kwargs)
+        share = Share.objects.filter(profile=self.profile).filter(shared_budget=self.budget_common)
+        if share.exists() and share.first().privilege == Share.PrivilegeChoices.EDIT:
+            return super().save(*args, **kwargs)
+        raise ValidationError(
+            f"{self.budget_common} not shared to {self.profile}. Ask {self.budget_common.owners_profile} for edit privilege.")
 
     def __str__(self):
         return f"Income of: {self.value}"
