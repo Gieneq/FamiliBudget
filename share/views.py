@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from .models import Share
 from .serializers import ShareSerializer, ShareSimpleSerializer
@@ -10,6 +11,7 @@ from userprofile.models import UserProfile
 
 
 class ShareQueriedViewSet(viewsets.ViewSet):
+
     def list(self, request, *args, **kwargs):
         params = request.GET
         slug = params.get('slug', None)
@@ -18,7 +20,9 @@ class ShareQueriedViewSet(viewsets.ViewSet):
         queryset = Share.objects
         if slug:
             queryset = queryset.filter(profile__slug=slug)
-        serializer = ShareSimpleSerializer(queryset.all(), many=True, context={'request':request})
+        serializer = ShareSimpleSerializer(queryset.all(), many=True, context={'request': request})
+
+        # return StandardPagination().get_paginated_response(serializer.data)
         return Response(serializer.data)
 
 
@@ -27,10 +31,9 @@ class ShareViewSet(viewsets.ModelViewSet):
     A simple ViewSet for listing or retrieving users.
     """
 
+    pagination_class = StandardPagination
     queryset = Share.objects.all()
     serializer_class = ShareSimpleSerializer
-    pagination_class = StandardPagination
-
 
 # class ShareSlugedViewSet(viewsets.ModelViewSet):
 #     """
