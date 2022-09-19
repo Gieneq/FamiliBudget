@@ -1,14 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from .models import Share
-from .serializers import ShareSerializer, ShareSimpleSerializer
+from .serializers import ShareSimpleSerializer
 from familybudget.pagination import StandardPagination
-from userprofile.models import UserProfile
-
 
 class ShareQueriedViewSet(viewsets.ViewSet):
 

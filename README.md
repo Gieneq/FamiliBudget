@@ -2,6 +2,8 @@
 
 Budget app to control you income and expenses. Done using Django, Django REST Framework and Docker Compose.
 
+![Database tables relations](img/familybudget_tables.png)
+
 ## Instalation Linux
 
 Install Docker and Docker Compose:

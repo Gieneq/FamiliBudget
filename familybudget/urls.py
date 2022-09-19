@@ -22,11 +22,13 @@ from rest_framework.decorators import api_view
 @api_view(('GET',))
 def api_info_view(request):
     content = {
-        # 'help': reverse('apihelp', request=request),
         'user': str(reverse('userprofile:user_list', request=request)),
         'profile': str(reverse('userprofile:userprofile_list', request=request)),
         'share': str(reverse('share:share-list', request=request)),
-        #todo budgets
+        'budget': str(reverse('budget:budget-list', request=request)),
+        'expensetype': str(reverse('budget:expensetype-list', request=request)),
+        'expense': str(reverse('budget:expense-list', request=request)),
+        'income': str(reverse('budget:income-list', request=request)),
     }
     return Response(content)
 
@@ -36,5 +38,6 @@ urlpatterns = [
     path('api/v1/', api_info_view, name='apihelp'),
     path('api/v1/user/', include('userprofile.urls', namespace='userprofile')),
     path('api/v1/share/', include('share.urls', namespace='share')),
+    path('api/v1/budget/', include('budget.urls', namespace='budget')),
     # path('api/v1/shared_to/', include('share.urls', namespace='share')),
 ]
