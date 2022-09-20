@@ -69,6 +69,10 @@ To load fixtures run:
 ```commandline
 sudo docker exec -it 12 python manage.py loaddata fixtures.json
 ```
+Resultin in:
+```text
+Installed 24 object(s) from 1 fixture(s)
+```
 
 ## Tests
 Tests are done using django TestCase framework which is based on Pythons unittest. To execute unit tests type:
@@ -132,6 +136,9 @@ And routes used to examine UserProfile:
 }
 ```
 
+## Pagination
+Pagination done using rest_framework.pagination.PageNumberPagination
+
 ## Permissions
 There are applied permissions:
 - staff memebe can manipulate all data,
@@ -152,6 +159,8 @@ Used in browsable API with login option enabled:
 ```Python
     path('api-auth/', include('rest_framework.urls')),
 ```
+### API Key Authentication
+There is [API Key DRF library](https://florimondmanca.github.io/djangorestframework-api-key/). API Key can be better option to storing password. API can be exchanged using cookie and get autdated after some time.
 
 ### Basic Authentication
 Simple raw user/password authentication not recommended in production. HTTPS is a musthave because password is sent to backend without any encryption.
