@@ -11,3 +11,4 @@ client_cli/pvenv/*
 client_cli/.env
 client_cli/.idea
 client_cli/.idea/*
+pyenv
