@@ -205,8 +205,38 @@ X-Frame-Options: DENY
     "last_name": "",
     "username": "Tester"
 }
-
 ```
 
 ## API Client with requests
+
+Inside 'client_cli' folder there is requests based Python API client. There are 3 commands:
+- **python3 client.py status [-v]**, status code 200 means web app is running,
+- **python3 client.py register**, register user with username and repeated password,
+- **python3 client.py email <email>, change email of user.
+
+For example changing email results: 
+```text
+    |----------------------------------------------------------|
+    |                   FamilyBudget Client                    |
+    |----------------------------------------------------------|
+(<Response [200]>, b'{"username":"Tomek","email":"abc@gmail.com","first_name":"","last_name":""}')
+```
+
+## Difficulties & todo
+Using Money field which combines DecimalField and currency string made some problems:
+- despite addition possibility it sometimes rolls back to DecimalField,
+- it is not easy to serialize.
+
+Because of that several aggregation properties of Budget model are not present in API:
+```python
+    def summarise_expenses(self):
+
+    def summarise_incomes(self):
+
+    def summarise_all(self):
+
+    def sort_by_expenses_type(self):
+```
+
+They aggregates expenses and incomes to one value. Last function is used to sum expenses among categories. It works fine in unit test, but there is problem with serializer.
 

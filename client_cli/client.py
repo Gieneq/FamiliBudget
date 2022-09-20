@@ -1,8 +1,6 @@
 import argparse
-import functools
 import sys, os
-import fetch, utils
-from decorators import with_apikey, with_apikey_restored, with_user_password
+import fetch
 from utils import input_user_password, password2_feedback_function
 
 prog_name = 'FamilyBudget Client'
@@ -75,21 +73,6 @@ class ClientCli:
         # user, password = input_user_password()
         user, password = 'Tomek', 'zwierz1234'
         return fetch.fetch_set_email(user, password, email_args.email, email_args.verbose)
-
-
-    @with_apikey(user_name_ext='wrong_user', api_key_ext='wrong_key')
-    @with_apikey_restored  # if dotenv file is created and has username and apikey
-    @with_user_password()  # pass username/password and retrive apikey
-    def test(self, *args,  **kwargs):
-        """
-        Just for testing decorators functionality. Retrive API Token using BasicAuthentication providing username and password.
-        """
-        print(args, kwargs)
-        username = kwargs.get('user_name')
-        apikey = kwargs.get('api_key')
-        return f"Retrived username {username} and API KEY {apikey[0:6]}{functools.reduce(lambda prev, curr: prev + '*', apikey[6:], '')}"
-
-
 
 if __name__ == "__main__":
     ClientCli()
