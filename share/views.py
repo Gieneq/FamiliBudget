@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from .models import Share
 from .serializers import ShareSimpleSerializer
 from familybudget.pagination import StandardPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import IsAdminDeleteByOwnerOrReadOnly
 
 class ShareQueriedViewSet(viewsets.ViewSet):
-
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminDeleteByOwnerOrReadOnly]
     def list(self, request, *args, **kwargs):
         params = request.GET
         slug = params.get('slug', None)
@@ -25,6 +27,7 @@ class ShareViewSet(viewsets.ModelViewSet):
     A simple ViewSet for listing or retrieving users.
     """
 
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminDeleteByOwnerOrReadOnly]
     pagination_class = StandardPagination
     queryset = Share.objects.all()
     serializer_class = ShareSimpleSerializer

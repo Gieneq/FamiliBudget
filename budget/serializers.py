@@ -7,13 +7,15 @@ class BudgetSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
     owners_profile_url = serializers.SerializerMethodField(read_only=True)
 
+    # summarise_expenses = MoneySerializer(many=False)
+
     # sum_expenses = serializers.SerializerMethodField(read_only=True)
     # sum_income = serializers.SerializerMethodField(read_only=True)
     # sum_all = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Budget
-        fields = '__all__'
+        fields = ['id', 'url', 'owners_profile_url', 'date_year_month', 'owners_profile']
 
     def get_url(self, instance):
         request = self.context.get('request')
@@ -23,9 +25,11 @@ class BudgetSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         return reverse('userprofile:userprofile_detail', args=[instance.owners_profile.slug], request=request)
 
-    # def get_sum_expenses(self, instance):
-    #     return instance.summarise_expenses
-    #
+    # def get_summarise_expenses(self, budget):
+    #     money = budget.summarise_expenses
+    #     print(money, MoneySerializer(money).data)
+    #     return MoneySerializer(money).data
+
     #
     # def get_sum_income(self, instance):
     #     return instance.summarise_incomes
@@ -94,3 +98,39 @@ class IncomeSerializer(serializers.ModelSerializer):
     def get_budget_url(self, instance):
         request = self.context.get('request')
         return reverse('budget:budget-detail', args=[instance.budget_common.pk], request=request)
+
+
+class BudgetLinkSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Budget
+        fields = ['id', 'url']
+
+    def get_url(self, instance):
+        request = self.context.get('request')
+        return reverse('budget:budget-detail', args=[instance.pk], request=request)
+
+
+class ExpenseLinkSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Income
+        fields = ['id', 'url']
+
+    def get_url(self, instance):
+        request = self.context.get('request')
+        return reverse('budget:expense-detail', args=[instance.pk], request=request)
+
+
+class IncomeLinkSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Income
+        fields = ['id', 'url']
+
+    def get_url(self, instance):
+        request = self.context.get('request')
+        return reverse('budget:income-detail', args=[instance.pk], request=request)

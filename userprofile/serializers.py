@@ -1,13 +1,10 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-
 from .models import UserProfile
-from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.reverse import reverse
-from rest_framework.validators import UniqueValidator
 from django.utils.text import slugify
-from django.shortcuts import get_object_or_404
+from budget.serializers import IncomeLinkSerializer, ExpenseLinkSerializer, BudgetLinkSerializer
 
 
 class SimpleUserSerializer(serializers.ModelSerializer):
@@ -143,15 +140,39 @@ class UserDestroySerializer():
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    # url = serializers.URLField(source='absolute_url', read_only=True)
     url = serializers.SerializerMethodField(read_only=True)
-    url_shared_to = serializers.SerializerMethodField(read_only=True)
-    # url_budgets = serializers.SerializerMethodField(read_only=True)
-    user = SimpleUserSerializer(many=False, read_only=True)
+    url_budgets = serializers.SerializerMethodField(read_only=True)
+    user_url = serializers.SerializerMethodField(read_only=True)
+
+    # user = SimpleUserSerializer(many=False, read_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ['slug', 'url', 'url_shared_to'] + ['user']# + ['url_budgets']
+        fields = ['slug', 'url', 'url_budgets', 'user', 'user_url']
+
+    def get_url(self, instance):
+        request = self.context.get('request')
+        return reverse('userprofile:userprofile_detail', args=[instance.slug], request=request)
+
+    def get_user_url(self, instance):
+        request = self.context.get('request')
+        return reverse('userprofile:user_detail', args=[instance.slug], request=request)
+
+    def get_url_budgets(self, instance):
+        request = self.context.get('request')
+        return reverse('userprofile:userprofile_budget_detail', args=[instance.slug], request=request)
+
+
+class UserProfileBudgetSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+    url_shared_to = serializers.SerializerMethodField(read_only=True)
+    incomes_made = IncomeLinkSerializer(many=True)
+    expenses_made = ExpenseLinkSerializer(many=True)
+    budgets_created = BudgetLinkSerializer(many=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ['url', 'url_shared_to', 'incomes_made', 'expenses_made', 'budgets_created']
 
     def get_url(self, instance):
         request = self.context.get('request')
@@ -160,7 +181,3 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_url_shared_to(self, instance):
         request = self.context.get('request')
         return reverse('share:share_query', request=request) + f'?slug={instance.slug}'
-
-    # def get_url_budgets(self, instance):
-    #     request = self.context.get('request')
-    #     return reverse('userprofile:userprofile_detail', args=[instance.slug], request=None)

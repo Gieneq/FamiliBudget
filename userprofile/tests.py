@@ -3,7 +3,7 @@ from .models import UserProfile
 from django.contrib.auth.models import User
 class UserProfileTestCase(TestCase):
     def setUp(self):
-        print('Creating User')
+        # print('Creating User')
         self.user1 = User.objects.create_user('Testcaser1', 'test')
         self.user2 = User.objects.create_user('Testcaser2', 'test')
         self.user_profile1 = UserProfile.objects.get(user=self.user1)
