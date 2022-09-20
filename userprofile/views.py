@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework import authentication, permissions
 from django.contrib.auth.models import User
 from .models import UserProfile
@@ -30,6 +30,7 @@ class UserListView(generics.ListAPIView):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def user_detail_view(request, *args, slug=None, **kwargs):
     user = get_object_or_404(User, user_profile__slug=slug)
     serializer = UserSerializer(user, many=False, context={'request': request})
@@ -48,6 +49,7 @@ class UserEditView(generics.UpdateAPIView):
     serializer_class = UserEditSerializer
     lookup_field = 'user_profile__slug'
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsUserOrReadOnly]
+    authentication_classes(authentication.BasicAuthentication)
     # todo redirect after changing of slug
 
 

@@ -156,6 +156,57 @@ Used in browsable API with login option enabled:
 ### Basic Authentication
 Simple raw user/password authentication not recommended in production. HTTPS is a musthave because password is sent to backend without any encryption.
 
-## API Client
+For example lets create user and try modifying using authentication credentials:
+```commandline
+http POST http://127.0.0.1:8000/api/v1/user/add/ username=Tester password=testing1234 password2=testing1234
+```
+Successful result:
+```text
+HTTP/1.1 201 Created
+Allow: POST, OPTIONS
+Content-Length: 46
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Tue, 20 Sep 2022 02:00:12 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.10.7
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
 
-## IoT Client
+{
+    "password": "testing1234",
+    "username": "Tester"
+}
+```
+
+Ten editing:
+
+```commandline
+http -a Tester:testing1234 PUT http://127.0.0.1:8000/api/v1/user/tester/edit/ email='tester@gmail.com' username='Tester'
+```
+with result:
+```text
+HTTP/1.1 200 OK
+Allow: PUT, PATCH, OPTIONS
+Content-Length: 79
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Tue, 20 Sep 2022 02:02:13 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.10.7
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "email": "tester@gmail.com",
+    "first_name": "",
+    "last_name": "",
+    "username": "Tester"
+}
+
+```
+
+## API Client with requests
+
